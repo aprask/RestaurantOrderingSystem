@@ -8,8 +8,9 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    customer_name = Column(String(100))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     description = Column(String(300))
+    restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
 
     order_details = relationship("OrderDetail", back_populates="order")
