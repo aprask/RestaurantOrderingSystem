@@ -8,5 +8,5 @@ class Order(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    customer_name = Column(String(500))
-    payment_method = Column(String(500))
+    customer_name = Column(String(500), nullable=False)
+    payment_method = Column(String(500), nullable=False)
