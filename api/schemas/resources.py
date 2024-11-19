@@ -20,7 +20,7 @@ class ResourceUpdate(BaseModel):
 class Resource(ResourceBase):
     id: int
     item: str
-    amount: int = None
+    amount: int
 
     class ConfigDict:
         from_attributes = True
