@@ -19,8 +19,8 @@ class ResourceUpdate(BaseModel):
 
 class Resource(ResourceBase):
     id: int
-    item: Optional[str] = None
-    amount: Optional[int] = None
+    item: str
+    amount: int = None
 
     class ConfigDict:
         from_attributes = True
