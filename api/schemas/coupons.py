@@ -1,8 +1,6 @@
-from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
-from .sandwiches import Sandwich
 from .restaurants import Restaurant
 
 class CouponBase(BaseModel):
@@ -27,7 +25,7 @@ class Coupon(CouponBase):
     id: int
     promo_code: str
     is_active: bool
-    restaurant_id: Restaurant = None
+    restaurant_id: Optional[Restaurant] = None
 
 
     class ConfigDict:
