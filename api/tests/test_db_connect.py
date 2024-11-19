@@ -1,4 +1,3 @@
-from sqlalchemy import create_engine
 import pymysql
 
 if __name__ == "__main__":
