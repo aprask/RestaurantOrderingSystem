@@ -14,6 +14,7 @@ class Order(Base):
     sandwich_id = Column(Integer, ForeignKey("sandwiches.id"), nullable=False)
     amount = Column(Integer, index=True, nullable=False)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
+    delivery_method = Column(String(300), nullable=False)
 
     sandwich = relationship("Sandwich", back_populates="orders")
     resource = relationship("Resource", back_populates="orders")
