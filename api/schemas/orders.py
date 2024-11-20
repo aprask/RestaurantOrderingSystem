@@ -14,6 +14,7 @@ class OrderBase(BaseModel):
     sandwich_id: int
     amount: float
     restaurant_id: int
+    delivery_method: str
 
 
 class OrderCreate(OrderBase):
@@ -28,6 +29,7 @@ class OrderUpdate(BaseModel):
     sandwich_id: Optional[int]
     amount: Optional[float]
     restaurant_id: Optional[int]
+    delivery_method: Optional[str]
 
 
 class Order(OrderBase):
@@ -39,6 +41,7 @@ class Order(OrderBase):
     order_date: Optional[datetime] = None
     amount: float
     restaurant_id: Restaurant = None
+    delivery_method: Optional[str]
 
 
     class ConfigDict:
