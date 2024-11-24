@@ -11,3 +11,4 @@ class Restaurant(Base):
     restaurant_name = Column(String(500))
     orders = relationship("Order", back_populates="restaurant")
     reviews = relationship("Review", back_populates="restaurant")
+    coupons = relationship("Coupon", back_populates="restaurant")
