@@ -37,10 +37,10 @@ class Order(OrderBase):
     user_id: int
     order_date: datetime
     description: Optional[str] = None
-    sandwich_id: Sandwich = None
+    sandwich_id: int
     order_date: Optional[datetime] = None
     amount: float
-    restaurant_id: Restaurant = None
+    restaurant_id: int
     delivery_method: Optional[str]
 
 

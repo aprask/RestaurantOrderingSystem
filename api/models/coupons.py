@@ -8,8 +8,9 @@ class Coupon(Base):
     __tablename__ = "coupons"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    promo_code = Column(String(500))
+    promo_code = Column(String(500), unique=True)
     is_active = Column(Boolean, default=False)
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
+    restaurants = relationship("Restaurant", back_populates="coupons")
 
 
