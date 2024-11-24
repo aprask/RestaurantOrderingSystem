@@ -19,3 +19,4 @@ class Order(Base):
     sandwich = relationship("Sandwich", back_populates="orders")
     restaurant = relationship("Restaurant", back_populates="orders")
     user = relationship("User", back_populates="orders")
+    reviews = relationship("Review", back_populates="order")
