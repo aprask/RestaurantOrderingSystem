@@ -4,9 +4,10 @@ from datetime import datetime
 from dependencies.database import Base
 
 
-class Order(Base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     customer_name = Column(String(500), nullable=False)
     payment_method = Column(String(500), nullable=False)
+    orders = relationship("Order", back_populates="user")
