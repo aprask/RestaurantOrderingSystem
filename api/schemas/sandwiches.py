@@ -6,8 +6,7 @@ from pydantic import BaseModel
 class SandwichBase(BaseModel):
     sandwich_name: str
     price: float
-    calories: float
-    sandwich_category: str
+    calories: int
     sandwich_size: str
     is_vegetarian: bool
     is_vegan: bool
