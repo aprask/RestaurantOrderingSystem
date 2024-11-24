@@ -9,3 +9,4 @@ class Restaurant(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     restaurant_name = Column(String(500))
+    orders = relationship("Order", back_populates="restaurant")
