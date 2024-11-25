@@ -15,6 +15,7 @@ class Order(Base):
     amount = Column(Integer, index=True, nullable=False)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
     delivery_method = Column(String(300), nullable=False)
+    status_of_order = Column(String(300), nullable=False, server_default="pending")
 
     sandwich = relationship("Sandwich", back_populates="orders")
     restaurant = relationship("Restaurant", back_populates="orders")
