@@ -15,6 +15,7 @@ class OrderBase(BaseModel):
     amount: float
     restaurant_id: int
     delivery_method: str
+    status_of_order: str
 
 
 class OrderCreate(OrderBase):
