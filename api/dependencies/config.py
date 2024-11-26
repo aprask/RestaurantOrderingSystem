@@ -7,6 +7,6 @@ class conf:
     database = os.getenv("DB_DATABASE", "sandwich_maker_api")
     port = int(os.getenv("DB_PORT", 3306))
     user = "root"
-    password = os.getenv("DB_PASSWORD", "root")
+    password = "Stryker618"
     app_host = os.getenv("APP_HOST", "localhost")
     app_port = int(os.getenv("APP_PORT", 8000))

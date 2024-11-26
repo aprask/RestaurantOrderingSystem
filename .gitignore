@@ -162,4 +162,4 @@ cython_debug/
 .pytest_cache
 
 # Config has password and stuff
-.api/dependencies/config.py
+./api/dependencies/config.py
