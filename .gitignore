@@ -162,4 +162,4 @@ cython_debug/
 .pytest_cache
 
 # Jakob figured this out... config w/ password & other goodies
-./api/dependencies/config.py
+.api/dependencies/config.py
