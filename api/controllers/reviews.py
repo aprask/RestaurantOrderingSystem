@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 def create(db: Session, request):
     new_review = model.Review(
         order_id = request.order_id,
-        resturant_id = request.resturant_id,
+        restaurant_id = request.restaurant_id,
         rating = request.rating,
         description = request.description
     )
@@ -25,7 +25,7 @@ def read_all(db: Session):
     try:
         result = db.query(model.Review).all()
     except SQLAlchemyError as e:
-        error = str(e.__dict__["orig"])
+        error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return result
@@ -36,7 +36,7 @@ def read_one(db: Session, review_id):
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as e:
-        error = str(e.__dict__["orig"])
+        error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
@@ -49,7 +49,7 @@ def update(db: Session, review_id, request):
         result.update(update_data, synchronize_session=False)
         db.commit()
     except SQLAlchemyError as e:
-        error = str(e.__dict__["orig"])
+        error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result.first()
 
@@ -61,6 +61,6 @@ def delete(db: Session, review_id):
         result.delete(synchronize_session=False)
         db.commit()
     except SQLAlchemyError as e:
-        error = str(e.__dict__["orig"])
+        error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
