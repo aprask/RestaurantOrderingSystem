@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, FastAPI, status, Response
 from sqlalchemy.orm import Session
-from ..controllers import orders as controller
+from ..controllers import users as controller
 from ..schemas import users as schema
 from ..dependencies.database import engine, get_db
 
 router = APIRouter(
-    tags=["Users"],
+    tags=['Users'],
     prefix="/users"
 )
 

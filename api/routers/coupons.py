@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, FastAPI, status, Response
 from sqlalchemy.orm import Session
-from ..controllers import orders as controller
+from ..controllers import coupons as controller
 from ..schemas import coupons as schema
 from ..dependencies.database import engine, get_db
 
 router = APIRouter(
-    tags=["Coupons"],
+    tags=['Coupons'],
     prefix="/coupons"
 )
 
