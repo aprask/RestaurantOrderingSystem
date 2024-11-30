@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import users as model
+from models import users as model
 from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
@@ -30,7 +30,7 @@ def read_all(db: Session):
 
 def read_one(db: Session, user_id):
     try:
-        result = db.query(model.User).filter(model.User.id == user_id).first
+        result = db.query(model.User).filter(model.User.id == user_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as error:
