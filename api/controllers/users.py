@@ -14,8 +14,8 @@ def create(db: Session, request):
         db.commit()
         db.refresh(new_user)
 
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+    except SQLAlchemyError as error:
+        db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return new_user
@@ -23,8 +23,7 @@ def create(db: Session, request):
 def read_all(db: Session):
     try:
         result = db.query(model.User).all()
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+    except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return result
@@ -34,8 +33,7 @@ def read_one(db: Session, user_id):
         result = db.query(model.User).filter(model.User.id == user_id).first
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+    except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return result
@@ -49,8 +47,8 @@ def update(db: Session, user_id, request):
         result.update(update_data, synchronize_session=False)
         db.commit()
 
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+    except SQLAlchemyError as error:
+        db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return result.first()
@@ -63,8 +61,8 @@ def delete(db: Session, user_id):
         result.delete(synchronize_session=False)
         db.commit()
 
-    except SQLAlchemyError as e:
-        error = str(e.__dict__['dict'])
+    except SQLAlchemyError as error:
+        db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
