@@ -25,7 +25,7 @@ class Coupon(CouponBase):
     id: int
     promo_code: str
     is_active: bool
-    restaurant_id: Optional[Restaurant] = None
+    restaurant_id: Optional[int] = None
 
 
     class ConfigDict:
