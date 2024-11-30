@@ -11,6 +11,6 @@ class Coupon(Base):
     promo_code = Column(String(500), unique=True)
     is_active = Column(Boolean, default=False)
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
-    restaurants = relationship("Restaurant", back_populates="coupons")
+    restaurant = relationship("Restaurant", back_populates="coupons")
 
 
