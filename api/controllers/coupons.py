@@ -29,7 +29,7 @@ def read_all(db: Session):
 
 def read_one(db: Session, coupon_id):
     try:
-        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == coupon_id).first
+        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == coupon_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as error:
