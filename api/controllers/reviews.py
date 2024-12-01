@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 def create(db: Session, request):
     new_review = model.Review(
         order_id = request.order_id,
-        resturant_id = request.resturant_id,
+        restaurant_id = request.restaurant_id,
         rating = request.rating,
         description = request.description
     )
@@ -32,7 +32,7 @@ def read_all(db: Session):
 
 def read_one(db: Session, review_id):
     try:
-        result = db.query(model.Review).filter(model.Review.order_id == review_id).first
+        result = db.query(model.Review).filter(model.Review.id == review_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as e:
@@ -42,7 +42,7 @@ def read_one(db: Session, review_id):
 
 def update(db: Session, review_id, request):
     try:
-        result = db.query(model.Review).filter(model.Review.order_id == review_id)
+        result = db.query(model.Review).filter(model.Review.id == review_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         update_data = request.dict(exclude_unset=True)
@@ -55,7 +55,7 @@ def update(db: Session, review_id, request):
 
 def delete(db: Session, review_id):
     try:
-        result = db.query(model.Review).filter(model.Review.order_id == review_id)
+        result = db.query(model.Review).filter(model.Review.id == review_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         result.delete(synchronize_session=False)
