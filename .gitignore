@@ -160,3 +160,6 @@ cython_debug/
 .idea/
 
 .pytest_cache
+
+# Jakob figured this out... config w/ password & other goodies
+.api/dependencies/config.py
