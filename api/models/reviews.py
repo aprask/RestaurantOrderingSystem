@@ -9,9 +9,11 @@ class Review(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
     rating = Column(Integer, nullable=False)
     description = Column(String(500), nullable=True)
 
     order = relationship("Order", back_populates="reviews")
     restaurant = relationship("Restaurant", back_populates="reviews")
+    user = relationship("User", back_populates="reviews")

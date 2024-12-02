@@ -7,6 +7,7 @@ def create(db: Session, request):
     new_review = model.Review(
         order_id = request.order_id,
         restaurant_id = request.restaurant_id,
+        user_id = request.user_id,
         rating = request.rating,
         description = request.description
     )
