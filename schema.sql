@@ -23,10 +23,12 @@ INSERT INTO recipes (id, sandwich_id, resource_id, amount) VALUES
 (2, 2, 2, 3), -- Veggie Sandwich: 3 units of Tomato
 (3, 3, 3, 1); -- Chicken Sandwich: 1 unit of Chicken
 
-INSERT INTO coupons (id, promo_code, is_active, restaurant_id) VALUES
-(1, 'DISCOUNT10', 1, 1),
-(2, 'FREESHIP', 1, 2),
-(3, 'BOGO50', 0, 3);
+INSERT INTO coupons (id, promo_code, is_active, discount, expir_date, restaurant_id)
+VALUES
+(1, 'DISCOUNT10', 1, 10.0, '2024-12-31 23:59:59', 1),
+(2, 'FREESHIP', 1, 0.0, '2024-12-31 23:59:59', 2),
+(3, 'BOGO50', 0, 50.0, '2024-12-31 23:59:59', 3);
+
 
 INSERT INTO orders (id, user_id, order_date, description, sandwich_id, amount, restaurant_id, delivery_method, status_of_order) VALUES
 (1, 1, '2024-01-01 12:00:00', 'Order 1 description', 1, 2, 1, 'Delivery', 'pending'),
