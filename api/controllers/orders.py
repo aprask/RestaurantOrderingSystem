@@ -45,6 +45,33 @@ def read_one(db: Session, item_id):
     return item
 
 
+def get_most_recent_order(db: Session):
+    try:
+        item = db.query(model.Order).order_by(model.Order.order_date.desc()).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
+
+def get_oldest_order(db: Session):
+    try:
+        item = db.query(model.Order).order_by(model.Order.order_date.asc()).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
+
+def get_order_by_rest(db: Session, rest_id):
+    try:
+        item = db.query(model.Order).filter(model.Order.restaurant_id == rest_id).all()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
+
 def update(db: Session, item_id, request):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id)
@@ -69,3 +96,21 @@ def delete(db: Session, item_id):
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def sort_orders_by_date(db: Session, start_date, end_date):
+    try:
+        items = db.query(model.Order).filter(
+            model.Order.order_date >= start_date,
+            model.Order.order_date <= end_date
+        ).all()
+        if not items:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No orders found within the specified date range."
+            )
+        return items
+    except SQLAlchemyError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error: {error}"
+        )

@@ -17,6 +17,10 @@ def create(request: schema.CouponCreate, db: Session = Depends(get_db)):
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
+@router.get("/{rest_id}", response_model=list[schema.Coupon])
+def read_one(rest_id: int, db: Session = Depends(get_db)):
+    return controller.get_coupon_by_rest(db, rest_id)
+
 @router.get("/{coupon_id}", response_model=schema.Coupon)
 def read_one(coupon_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, coupon_id)
