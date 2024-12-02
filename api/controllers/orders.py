@@ -96,3 +96,21 @@ def delete(db: Session, item_id):
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def sort_orders_by_date(db: Session, start_date, end_date):
+    try:
+        items = db.query(model.Order).filter(
+            model.Order.order_date >= start_date,
+            model.Order.order_date <= end_date
+        ).all()
+        if not items:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No orders found within the specified date range."
+            )
+        return items
+    except SQLAlchemyError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error: {error}"
+        )
