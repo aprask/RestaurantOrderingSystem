@@ -72,16 +72,6 @@ def get_order_by_rest(db: Session, rest_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item
 
-def get_order_status(db: Session, item_id):
-    try:
-        item = db.query(model.Order).filter(model.Order.id == item_id).first()
-        if not item:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
-    except SQLAlchemyError as error:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return {"status": item.status_of_order}
-
-
 def update(db: Session, item_id, request):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id)
