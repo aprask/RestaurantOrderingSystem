@@ -29,12 +29,21 @@ def read_all(db: Session):
 
 def read_one(db: Session, coupon_id):
     try:
-        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == coupon_id).first()
+        result = db.query(model.Coupon).filter(model.Coupon.id == coupon_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
+    return result
+
+def get_coupon_by_rest(db: Session, rest_id):
+    try:
+        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == rest_id).all()
+        if not result:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
 def update(db: Session, coupon_id, request):
