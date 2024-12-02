@@ -22,15 +22,21 @@ def read_all(db: Session = Depends(get_db)):
 def get_most_recent_order(db: Session = Depends(get_db)):
     return controller.get_most_recent_order(db=db)
 
+@router.get("/oldest", response_model=schema.Order)
+def get_oldest_order(db: Session = Depends(get_db)):
+    return controller.get_oldest_order(db=db)
+
 @router.get("/{item_id}", response_model=schema.Order)
 def read_one(item_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, item_id=item_id)
 
+@router.get("/{rest_id}", response_model=schema.Order)
+def get_order_by_rest(rest_id: int, db: Session = Depends(get_db)):
+    return controller.get_order_by_rest(db, rest_id=rest_id)
 
 @router.put("/{item_id}", response_model=schema.Order)
 def update(item_id: int, request: schema.OrderUpdate, db: Session = Depends(get_db)):
     return controller.update(db=db, request=request, item_id=item_id)
-
 
 @router.delete("/{item_id}")
 def delete(item_id: int, db: Session = Depends(get_db)):
