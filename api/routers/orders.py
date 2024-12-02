@@ -30,7 +30,7 @@ def get_oldest_order(db: Session = Depends(get_db)):
 def read_one(item_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, item_id=item_id)
 
-@router.get("/{rest_id}", response_model=schema.Order)
+@router.get("/{rest_id}", response_model=list[schema.Order])
 def get_order_by_rest(rest_id: int, db: Session = Depends(get_db)):
     return controller.get_order_by_rest(db, rest_id=rest_id)
 
