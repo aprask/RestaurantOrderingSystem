@@ -47,3 +47,7 @@ class Order(OrderBase):
 
     class ConfigDict:
         from_attributes = True
+
+class SortOrdersRequest(BaseModel):
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
