@@ -65,7 +65,7 @@ def get_oldest_order(db: Session):
 
 def get_order_by_rest(db: Session, rest_id):
     try:
-        item = db.query(model.Order).filter(model.Order.restaurant_id == rest_id).first()
+        item = db.query(model.Order).filter(model.Order.restaurant_id == rest_id).all()
         if not item:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
     except SQLAlchemyError as error:
