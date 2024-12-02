@@ -14,11 +14,13 @@ router = APIRouter(
 def create(request: schema.OrderCreate, db: Session = Depends(get_db)):
     return controller.create(db=db, request=request)
 
-
 @router.get("/", response_model=list[schema.Order])
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
+@router.get("/latest", response_model=schema.Order)
+def get_most_recent_order(db: Session = Depends(get_db)):
+    return controller.get_most_recent_order(db=db)
 
 @router.get("/{item_id}", response_model=schema.Order)
 def read_one(item_id: int, db: Session = Depends(get_db)):

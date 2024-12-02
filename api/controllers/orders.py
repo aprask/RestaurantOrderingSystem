@@ -45,6 +45,16 @@ def read_one(db: Session, item_id):
     return item
 
 
+def get_most_recent_order(db: Session):
+    try:
+        item = db.query(model.Order).order_by(model.Order.order_date.desc()).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
+
+
 def update(db: Session, item_id, request):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id)
