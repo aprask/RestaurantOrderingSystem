@@ -5,13 +5,9 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
     new_sandwich = model.Sandwich(
-        sandwich_name=request.sandwich_name,
-        price=request.price,
-        calories=request.calories,
-        sandwich_size=request.sandwich_size,
-        is_vegetarian=request.is_vegetarian,
-        is_vegan=request.is_vegan,
-        is_gluten_free=request.is_gluten_free
+        promo_code = request.promo_code,
+        is_active = request.is_active,
+        restaurant_id = request.restaurant_id
     )
 
     try:
@@ -31,6 +27,22 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
+def filter_by(db: Session, filter_string):
+    try:
+        if filter_string=="vegan":
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_vegan)
+        elif filter_string=="vegetarian":
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_vegetarian)
+        elif filter_string == "gluten free" or filter_string == "gluten_free":
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_gluten_free)
+        elif filter_string.isalpha():
+            result = db.query(model.Sandwich).filter(model.Sandwich.sandwich_name.contains(filter_string))
+        elif filter_string.isdigit:
+            result = db.query(model.Sandwich).filter(model.Sandwich.id == filter_string)
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return result
+
 def read_one(db: Session, sandwich_id):
     try:
         result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
@@ -43,7 +55,7 @@ def read_one(db: Session, sandwich_id):
 
 def update(db: Session, sandwich_id, request):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.restaurant_id == sandwich_id)
+        result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         update_data = request.dict(exclude_unset = True)
@@ -58,7 +70,7 @@ def update(db: Session, sandwich_id, request):
 
 def delete(db: Session, sandwich_id):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.order_id == sandwich_id)
+        result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         result.delete(synchronize_session=False)
