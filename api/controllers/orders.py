@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -13,8 +14,7 @@ def create(db: Session, request):
         amount=request.amount,
         restaurant_id=request.restaurant_id,
         delivery_method=request.delivery_method,
-        status_of_order=request.status_of_order,
-        promotion_code=request.promotion_code
+        status_of_order=request.status_of_order
     )
 
     try:
