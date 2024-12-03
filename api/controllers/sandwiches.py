@@ -39,7 +39,7 @@ def read_one(db: Session, sandwich_id):
 
 def update(db: Session, sandwich_id, request):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.restaurant_id == sandwich_id)
+        result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         update_data = request.dict(exclude_unset = True)
@@ -54,7 +54,7 @@ def update(db: Session, sandwich_id, request):
 
 def delete(db: Session, sandwich_id):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.order_id == sandwich_id)
+        result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         result.delete(synchronize_session=False)

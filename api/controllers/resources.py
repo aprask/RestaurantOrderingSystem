@@ -37,7 +37,6 @@ def read_one(db: Session, resource_id):
 
     return result
 
-
 def update(db: Session, resource_id, request):
     try:
         result = db.query(model.Resource).filter(model.Resource.id == resource_id)
