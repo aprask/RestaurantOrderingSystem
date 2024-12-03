@@ -17,9 +17,9 @@ def create(request: schema.SandwichCreate, db: Session = Depends(get_db)):
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
-# @router.get("/{rest_id}", response_model=list[schema.Sandwich])
-# def read_one(rest_id: int, db: Session = Depends(get_db)):
-#     return controller.get_sandwich_by_rest(db, rest_id)
+@router.get("/search/{filter_string}", response_model=list[schema.Sandwich])
+def filter_by(filter_string: str, db: Session = Depends(get_db)):
+    return controller.filter_by(db, filter_string)
 
 @router.get("/{sandwich_id}", response_model=schema.Sandwich)
 def read_one(sandwich_id: int, db: Session = Depends(get_db)):
