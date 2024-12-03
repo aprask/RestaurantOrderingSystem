@@ -37,6 +37,7 @@ def deduct_resources(db: Session, sandwich_id):
             if not resource:
                 raise HTTPException(status_code=404, detail=f"Resource with ID {recipe.resource_id} not found")
             if resource.amount < recipe.amount:
+                db.rollback()
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Insufficient resources")
             resource.amount -= recipe.amount # deduct
             deducted_resources.append({ # response body
