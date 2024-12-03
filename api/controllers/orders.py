@@ -14,7 +14,8 @@ def create(db: Session, request):
         amount=request.amount,
         restaurant_id=request.restaurant_id,
         delivery_method=request.delivery_method,
-        status_of_order=request.status_of_order
+        status_of_order=request.status_of_order,
+        promo_code=request.promo_code
     )
 
     try:
@@ -32,7 +33,7 @@ def read_all(db: Session):
     try:
         result = db.query(model.Order).all()
     except SQLAlchemyError as error:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return result
 
 
@@ -42,7 +43,7 @@ def read_one(db: Session, item_id):
         if not item:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
     except SQLAlchemyError as error:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return item
 
 
