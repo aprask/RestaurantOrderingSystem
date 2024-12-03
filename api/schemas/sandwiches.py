@@ -20,7 +20,6 @@ class SandwichUpdate(BaseModel):
     sandwich_name: Optional[str] = None
     price: Optional[float] = None
     calories: Optional[float] = None
-    sandwich_category: Optional[str] = None
     sandwich_size: Optional[str] = None
     is_vegetarian: Optional[bool] = None
     is_vegan: Optional[bool] = None
@@ -32,7 +31,6 @@ class Sandwich(SandwichBase):
     sandwich_name: str
     price: float
     calories: float
-    sandwich_category: str
     sandwich_size: str
     is_vegetarian: bool
     is_vegan: bool
