@@ -27,6 +27,18 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
+def filter_by(db: Session, filter_string):
+    try:
+        if (filter_string=="vegan"):
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_vegan)
+        if (filter_string=="vegetarian"):
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_vegetarian)
+        if (filter_string == "gluten free" or filter_string == ("gluten_free")):
+            result = db.query(model.Sandwich).filter(model.Sandwich.is_gluten_free)
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return result
+
 def read_one(db: Session, sandwich_id):
     try:
         result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
