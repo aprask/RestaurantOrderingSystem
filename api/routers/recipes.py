@@ -17,6 +17,10 @@ def create(request: schema.RecipeCreate, db: Session = Depends(get_db)):
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
+@router.get("/{sand_id}", response_model=schema.DeductResourcesResponse)
+def deduct_resources(sand_id: int, db: Session = Depends(get_db)):
+    return controller.deduct_resources(db, sandwich_id=sand_id)
+
 @router.get("/{recipe_id}", response_model=schema.Recipe)
 def read_one(recipe_id: int, db: Session = Depends(get_db)):
     return controller.read_one(db, recipe_id)

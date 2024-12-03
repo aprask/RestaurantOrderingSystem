@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import recipes as model
+from ..models import recipes, sandwiches, resources as model
 from sqlalchemy.exc import SQLAlchemyError
+from ..schemas.recipes import DeductResourcesResponse
 
 
 def create(db: Session, request):
@@ -22,6 +23,34 @@ def create(db: Session, request):
 
     return new_recipe
 
+def deduct_resources(db: Session, sandwich_id):
+    try:
+        sandwich = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
+        if not sandwich:
+            raise HTTPException(status_code=404, detail="Sandwich not found")
+        recipes = db.query(model.Recipe).filter(model.Recipe.sandwich_id == sandwich_id).all() # get recipes (could one or many)
+        if not recipes:
+            raise HTTPException(status_code=400, detail="No recipes found for this sandwich")
+        deducted_resources = []
+        for recipe in recipes:
+            resource = db.query(model.Resource).filter(model.Resource.id == recipe.resource_id).first()
+            if not resource:
+                raise HTTPException(status_code=404, detail=f"Resource with ID {recipe.resource_id} not found")
+            if resource.amount < recipe.amount:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Insufficient resources")
+            resource.amount -= recipe.amount # deduct
+            deducted_resources.append({ # response body
+                "resource_id": resource.id,
+                "resource_name": resource.item,
+                "deducted_amount": recipe.amount,
+                "remaining_amount": resource.amount
+            })
+        db.commit()
+
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
+    return DeductResourcesResponse(deducted_resources)
 
 def read_all(db: Session):
     try:
