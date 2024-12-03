@@ -14,6 +14,6 @@ class Review(Base):
     rating = Column(Integer, nullable=False)
     description = Column(String(500), nullable=True)
 
-    order = relationship("Order", back_populates="reviews")
+    orders = relationship("Order", back_populates="reviews")
     restaurant = relationship("Restaurant", back_populates="reviews")
     user = relationship("User", back_populates="reviews")

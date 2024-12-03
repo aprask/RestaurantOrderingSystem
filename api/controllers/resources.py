@@ -1,37 +1,35 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import coupons as model
+from ..models import resources as model
 from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
-    new_coupon = model.Coupon(
-        promo_code = request.promo_code,
-        is_active = request.is_active,
-        restaurant_id = request.restaurant_id,
-        expir_date = request.expir_date,
-        discount=request.discount
+    new_resource = model.Resource(
+        item = request.item,
+        amount = request.amount,
     )
 
     try:
-        db.add(new_coupon)
+        db.add(new_resource)
         db.commit()
-        db.refresh(new_coupon)
+        db.refresh(new_resource)
     except SQLAlchemyError as error:
         db.rollback()
+        error = str(e.__dict__["orig"])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
-    return new_coupon
+    return new_resource
 
 def read_all(db: Session):
     try:
-        result = db.query(model.Coupon).all()
+        result = db.query(model.Resource).all()
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
-def read_one(db: Session, coupon_id):
+def read_one(db: Session, resource_id):
     try:
-        result = db.query(model.Coupon).filter(model.Coupon.id == coupon_id).first()
+        result = db.query(model.Resource).filter(model.Resource.id == resource_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as error:
@@ -39,18 +37,10 @@ def read_one(db: Session, coupon_id):
 
     return result
 
-def get_coupon_by_rest(db: Session, rest_id):
-    try:
-        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == rest_id).all()
-        if not result:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    except SQLAlchemyError as error:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return result
 
-def update(db: Session, coupon_id, request):
+def update(db: Session, resource_id, request):
     try:
-        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == coupon_id)
+        result = db.query(model.Resource).filter(model.Resource.id == resource_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         update_data = request.dict(exclude_unset = True)
@@ -63,9 +53,9 @@ def update(db: Session, coupon_id, request):
 
     return result.first()
 
-def delete(db: Session, coupon_id):
+def delete(db: Session, resource_id):
     try:
-        result = db.query(model.Coupon).filter(model.Coupon.restaurant_id == coupon_id)
+        result = db.query(model.Resource).filter(model.Resource.id == resource_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         result.delete(synchronize_session=False)
