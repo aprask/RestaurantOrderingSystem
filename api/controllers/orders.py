@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import orders as model
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -115,3 +116,15 @@ def sort_orders_by_date(db: Session, start_date, end_date):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Database error: {error}"
         )
+
+def get_total_revenue(db: Session):
+    try:
+        total_revenue = db.query(func.sum(model.Order.amount)).scalar()
+        if total_revenue is None:
+            total_revenue = 0.0
+        return {"total_revenue": float(total_revenue)}
+    except SQLAlchemyError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Database error: {error}"
+    )
