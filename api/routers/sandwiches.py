@@ -17,7 +17,7 @@ def create(request: schema.SandwichCreate, db: Session = Depends(get_db)):
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
-@router.get("/{filter_string}", response_model=list[schema.Sandwich])
+@router.get("/search/{filter_string}", response_model=list[schema.Sandwich])
 def filter_by(filter_string: str, db: Session = Depends(get_db)):
     return controller.filter_by(db, filter_string)
 

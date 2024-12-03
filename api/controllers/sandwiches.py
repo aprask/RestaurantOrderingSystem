@@ -5,9 +5,13 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
     new_sandwich = model.Sandwich(
-        promo_code = request.promo_code,
-        is_active = request.is_active,
-        restaurant_id = request.restaurant_id
+        sandwich_name = request.sandwich_name,
+        price = request.price,
+        calories = request.calories,
+        sandwich_size = request.sandwich_size,
+        is_vegetarian = request.is_vegetarian,
+        is_vegan = request.is_vegan,
+        is_gluten_free = request.is_gluten_free
     )
 
     try:
@@ -35,6 +39,10 @@ def filter_by(db: Session, filter_string):
             result = db.query(model.Sandwich).filter(model.Sandwich.is_vegetarian)
         elif filter_string == "gluten free" or filter_string == "gluten_free":
             result = db.query(model.Sandwich).filter(model.Sandwich.is_gluten_free)
+        elif filter_string.isalpha():
+            result = db.query(model.Sandwich).filter(model.Sandwich.sandwich_name.contains(filter_string))
+        elif filter_string.isdigit:
+            result = db.query(model.Sandwich).filter(model.Sandwich.id == filter_string)
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
