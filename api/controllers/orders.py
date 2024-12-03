@@ -13,7 +13,8 @@ def create(db: Session, request):
         amount=request.amount,
         restaurant_id=request.restaurant_id,
         delivery_method=request.delivery_method,
-        status_of_order=request.status_of_order
+        status_of_order=request.status_of_order,
+        promotion_code=request.promotion_code
     )
 
     try:
