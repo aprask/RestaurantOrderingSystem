@@ -7,6 +7,7 @@ def create(db: Session, request):
     new_review = model.Review(
         order_id = request.order_id,
         restaurant_id = request.restaurant_id,
+        user_id = request.user_id,
         rating = request.rating,
         description = request.description
     )
@@ -80,3 +81,12 @@ def sort_reviews_by_rating_dsc(db: Session):
         error = str(e.__dict__["orig"])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
+
+def get_reviews_from_restaurant(db: Session, rest_id):
+    try:
+        item = db.query(model.Review).filter(model.Review.restaurant_id == rest_id).first()
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ID not found!")
+    except SQLAlchemyError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    return item
