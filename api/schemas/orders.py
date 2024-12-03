@@ -16,6 +16,7 @@ class OrderBase(BaseModel):
     restaurant_id: int
     delivery_method: str
     status_of_order: str
+    promotion_code: str
 
 
 class OrderCreate(OrderBase):
@@ -31,6 +32,7 @@ class OrderUpdate(BaseModel):
     amount: Optional[float]
     restaurant_id: Optional[int]
     delivery_method: Optional[str]
+    promotion_code: Optional[str]
 
 
 class Order(OrderBase):
@@ -43,6 +45,7 @@ class Order(OrderBase):
     amount: float
     restaurant_id: int
     delivery_method: Optional[str]
+    promotion_code: Optional[str]
 
 
     class ConfigDict:
@@ -51,3 +54,6 @@ class Order(OrderBase):
 class SortOrdersRequest(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
+
+class TotalRevenueResponse(BaseModel):
+    total_revenue: float
