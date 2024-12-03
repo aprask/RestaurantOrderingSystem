@@ -10,3 +10,4 @@ class User(Base):
     customer_name = Column(String(500), nullable=False)
     payment_method = Column(String(500), nullable=False)
     orders = relationship("Order", back_populates="user")
+    reviews = relationship("Review", back_populates="user")
