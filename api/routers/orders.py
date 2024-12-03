@@ -18,6 +18,10 @@ def create(request: schema.OrderCreate, db: Session = Depends(get_db)):
 def read_all(db: Session = Depends(get_db)):
     return controller.read_all(db)
 
+@router.get("/revenue")
+def get_total_revenue(db: Session = Depends(get_db)):
+    return controller.get_total_revenue(db=db)
+
 @router.post("/sort-date", response_model=list[schema.Order])
 def sort_orders_by_date(request: schema.SortOrdersRequest, db: Session = Depends(get_db)):
     return controller.sort_orders_by_date(db, start_date=request.start_date, end_date=request.end_date)

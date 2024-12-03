@@ -51,3 +51,6 @@ class Order(OrderBase):
 class SortOrdersRequest(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
+
+class TotalRevenueResponse(BaseModel):
+    total_revenue: float
