@@ -5,9 +5,13 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
     new_sandwich = model.Sandwich(
-        promo_code = request.promo_code,
-        is_active = request.is_active,
-        restaurant_id = request.restaurant_id
+        sandwich_name=request.sandwich_name,
+        price=request.price,
+        calories=request.calories,
+        sandwich_size=request.sandwich_size,
+        is_vegetarian=request.is_vegetarian,
+        is_vegan=request.is_vegan,
+        is_gluten_free=request.is_gluten_free
     )
 
     try:
