@@ -16,9 +16,10 @@ class Order(Base):
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
     delivery_method = Column(String(300), nullable=False)
     status_of_order = Column(String(300), nullable=False, server_default="pending")
-    promotion_code = Column(String(300), nullable=True, server_default="N/A")
+    promo_code = Column(String(500), ForeignKey("coupons.promo_code"), nullable=True, server_default="N/A")
 
     sandwich = relationship("Sandwich", back_populates="orders")
     restaurant = relationship("Restaurant", back_populates="orders")
     user = relationship("User", back_populates="orders")
-    reviews = relationship("Review", back_populates="order")
+    reviews = relationship("Review", back_populates="orders")
+    coupons = relationship("Coupon", back_populates="orders")

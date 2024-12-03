@@ -30,10 +30,10 @@ VALUES
 (3, 'BOGO50', 0, 50.0, '2024-12-31 23:59:59', 3);
 
 
-INSERT INTO orders (id, user_id, order_date, description, sandwich_id, amount, restaurant_id, delivery_method, status_of_order, promotion_code) VALUES
-(1, 1, '2024-01-01 12:00:00', 'Order 1 description', 1, 2, 1, 'Delivery', 'pending', "test"),
-(2, 2, '2024-01-02 13:00:00', 'Order 2 description', 2, 1, 2, 'Pickup', 'completed', "test"),
-(3, 3, '2024-01-03 14:00:00', 'Order 3 description', 3, 3, 3, 'Delivery', 'canceled', "DISCOUNT10");
+INSERT INTO orders (id, user_id, order_date, description, sandwich_id, amount, restaurant_id, delivery_method, status_of_order, promo_code) VALUES
+(1, 1, '2024-01-01 12:00:00', 'Order 1 description', 1, 2, 1, 'Delivery', 'pending', 'DISCOUNT10'),
+(2, 2, '2024-01-02 13:00:00', 'Order 2 description', 2, 1, 2, 'Pickup', 'completed', null),
+(3, 3, '2024-01-03 14:00:00', 'Order 3 description', 3, 3, 3, 'Delivery', 'canceled', 'BOGO50');
 
 INSERT INTO reviews (id, order_id, restaurant_id, user_id, rating, description) VALUES
 (1, 1, 1, 1, 5, 'Great food!'),
