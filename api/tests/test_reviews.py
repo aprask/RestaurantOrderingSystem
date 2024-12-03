@@ -44,7 +44,6 @@ def test_create_review(db_session):
 
     sandwich_data = {
         "sandwich_name": "Test sandwich",
-        "description": "Test description",
         "price": 10.00,
         "calories": 100,
         "sandwich_size": "small",
