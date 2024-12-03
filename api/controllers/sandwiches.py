@@ -26,10 +26,11 @@ def create(db: Session, request):
 
 def read_all(db: Session):
     try:
-        result = db.query(model.Sandwich).all()
+        return db.query(model.Sandwich).all();
+        #result = db.query(model.Sandwich).all()
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return result
+    #return result
 
 def read_one(db: Session, sandwich_id):
     try:
