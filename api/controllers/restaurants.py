@@ -1,39 +1,38 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
-from ..models import sandwiches as model
+from ..models import restaurants as model
 from sqlalchemy.exc import SQLAlchemyError
 
+
 def create(db: Session, request):
-    new_sandwich = model.Sandwich(
-        sandwich_name=request.sandwich_name,
-        price=request.price,
-        calories=request.calories,
-        sandwich_size=request.sandwich_size,
-        is_vegetarian=request.is_vegetarian,
-        is_vegan=request.is_vegan,
-        is_gluten_free=request.is_gluten_free
+    new_restaurant = model.Restaurant(
+        restaurant_name = request.restaurant_name
     )
 
     try:
-        db.add(new_sandwich)
+        db.add(new_restaurant)
         db.commit()
-        db.refresh(new_sandwich)
+        db.refresh(new_restaurant)
+
     except SQLAlchemyError as error:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
-    return new_sandwich
+    return new_restaurant
+
 
 def read_all(db: Session):
     try:
-        return db.query(model.Sandwich).all()
+        result = db.query(model.Restaurant).all()
     except SQLAlchemyError as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+
     return result
 
-def read_one(db: Session, sandwich_id):
+
+def read_one(db: Session, restaurant_id):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
+        result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id).first()
         if not result:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except SQLAlchemyError as error:
@@ -41,9 +40,9 @@ def read_one(db: Session, sandwich_id):
 
     return result
 
-def update(db: Session, sandwich_id, request):
+def update(db: Session, restaurant_id, request):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.restaurant_id == sandwich_id)
+        result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         update_data = request.dict(exclude_unset = True)
@@ -56,15 +55,17 @@ def update(db: Session, sandwich_id, request):
 
     return result.first()
 
-def delete(db: Session, sandwich_id):
+
+def delete(db: Session, restaurant_id):
     try:
-        result = db.query(model.Sandwich).filter(model.Sandwich.order_id == sandwich_id)
+        result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id)
         if not result.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         result.delete(synchronize_session=False)
         db.commit()
 
     except SQLAlchemyError as error:
+        db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

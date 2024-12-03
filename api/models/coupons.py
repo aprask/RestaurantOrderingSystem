@@ -14,3 +14,4 @@ class Coupon(Base):
     expir_date = Column(DateTime, default=lambda: datetime.utcnow())
     restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
     restaurant = relationship("Restaurant", back_populates="coupons")
+    orders = relationship("Order", back_populates="coupons")

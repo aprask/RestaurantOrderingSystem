@@ -7,7 +7,9 @@ def create(db: Session, request):
     new_coupon = model.Coupon(
         promo_code = request.promo_code,
         is_active = request.is_active,
-        restaurant_id = request.restaurant_id
+        restaurant_id = request.restaurant_id,
+        expir_date = request.expir_date,
+        discount=request.discount
     )
 
     try:
