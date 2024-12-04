@@ -32,6 +32,7 @@ class OrderUpdate(BaseModel):
     amount: Optional[float]
     restaurant_id: Optional[int]
     delivery_method: Optional[str]
+    status_of_order: str
     promo_code: Optional[str]
 
 
@@ -44,7 +45,9 @@ class Order(OrderBase):
     order_date: Optional[datetime] = None
     amount: float
     restaurant_id: int
+    status_of_order: str
     delivery_method: Optional[str]
+
     promo_code: Optional[str]
 
 
