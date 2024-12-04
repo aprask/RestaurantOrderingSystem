@@ -32,7 +32,7 @@ class OrderUpdate(BaseModel):
     amount: Optional[float]
     restaurant_id: Optional[int]
     delivery_method: Optional[str]
-    status_of_order: str
+    status_of_order: Optional[str]
     promo_code: Optional[str]
 
 
