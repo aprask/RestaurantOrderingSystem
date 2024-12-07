@@ -63,6 +63,6 @@ def delete(db: Session, user_id):
 
     except SQLAlchemyError as error:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

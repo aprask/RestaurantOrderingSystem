@@ -15,6 +15,5 @@ class Sandwich(Base):
     is_vegetarian = Column(Boolean, nullable=False)
     is_vegan = Column(Boolean, nullable=False)
     is_gluten_free = Column(Boolean, nullable=False)
-
-    recipes = relationship("Recipe", back_populates="sandwich")
-    orders = relationship("Order", back_populates="sandwich")
+    recipes = relationship("Recipe", back_populates="sandwich", cascade="all, delete-orphan")
+    orders = relationship("Order", back_populates="sandwich", cascade="all, delete-orphan")
