@@ -30,6 +30,11 @@ def create(db: Session, request):
 
     return new_user
 
+# Retrieve all users from the database
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - A list of all user objects
 def read_all(db: Session):
     try:
         result = db.query(model.User).all()
@@ -38,6 +43,12 @@ def read_all(db: Session):
 
     return result
 
+# Retrieve a single user by its ID
+# Parameters:
+#   - db: Database session
+#   - user_id: ID of the user to retrieve
+# Returns:
+#   - The user object if found, raises 404 otherwise
 def read_one(db: Session, user_id):
     try:
         result = db.query(model.User).filter(model.User.id == user_id).first()
@@ -48,6 +59,13 @@ def read_one(db: Session, user_id):
 
     return result
 
+# Update an existing user by its ID
+# Parameters:
+#   - db: Database session
+#   - user_id: ID of the user to update
+#   - request: Data containing the fields to update
+# Returns:
+#   - The updated user object
 def update(db: Session, user_id, request):
     try:
         result = db.query(model.User).filter(model.User.id == user_id)
@@ -63,6 +81,12 @@ def update(db: Session, user_id, request):
 
     return result.first()
 
+# Delete a user by its ID
+# Parameters:
+#   - db: Database session
+#   - user_id: ID of the user to delete
+# Returns:
+#   - A 204 No Content response if successful
 def delete(db: Session, user_id):
     try:
         result = db.query(model.User).filter(model.User.id == user_id)
