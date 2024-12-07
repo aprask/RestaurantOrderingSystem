@@ -3,7 +3,16 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import restaurants as model
 from sqlalchemy.exc import SQLAlchemyError
 
+# =====================
+# Restaurant Controller
+# =====================
 
+# Create a new restaurant in the database
+# Parameters:
+#   - db: Database session
+#   - request: Data containing the restaurant details
+# Returns:
+#   - The newly created restaurant object
 def create(db: Session, request):
     new_restaurant = model.Restaurant(
         restaurant_name = request.restaurant_name
@@ -20,7 +29,11 @@ def create(db: Session, request):
 
     return new_restaurant
 
-
+# Retrieve all restaurants from the database
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - A list of all restaurant objects
 def read_all(db: Session):
     try:
         result = db.query(model.Restaurant).all()
@@ -29,7 +42,12 @@ def read_all(db: Session):
 
     return result
 
-
+# Retrieve a single restaurant by its ID
+# Parameters:
+#   - db: Database session
+#   - restaurant_id: ID of the restaurant to retrieve
+# Returns:
+#   - The restaurant object if found, raises 404 otherwise
 def read_one(db: Session, restaurant_id):
     try:
         result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id).first()
@@ -40,6 +58,13 @@ def read_one(db: Session, restaurant_id):
 
     return result
 
+# Update an existing restaurant by its ID
+# Parameters:
+#   - db: Database session
+#   - restaurant_id: ID of the restaurant to update
+#   - request: Data containing the fields to update
+# Returns:
+#   - The updated restaurant object
 def update(db: Session, restaurant_id, request):
     try:
         result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id)
@@ -55,7 +80,12 @@ def update(db: Session, restaurant_id, request):
 
     return result.first()
 
-
+# Delete a restaurant by its ID
+# Parameters:
+#   - db: Database session
+#   - restaurant_id: ID of the restaurant to delete
+# Returns:
+#   - A 204 No Content response if successful
 def delete(db: Session, restaurant_id):
     try:
         result = db.query(model.Restaurant).filter(model.Restaurant.id == restaurant_id)

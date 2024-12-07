@@ -4,7 +4,16 @@ from ..models import recipes, sandwiches, resources as model
 from sqlalchemy.exc import SQLAlchemyError
 from ..schemas.recipes import DeductResourcesResponse
 
+# =======================
+# Recipe Table Controller
+# =======================
 
+# Create a new recipe entry in the database
+# Parameters:
+#   - db: Database session
+#   - request: Data containing the recipe details
+# Returns:
+#   - The newly created recipe object
 def create(db: Session, request):
     new_recipe = model.Recipe(
         sandwich_id = request.sandwich_id,
@@ -23,6 +32,12 @@ def create(db: Session, request):
 
     return new_recipe
 
+# Deduct resources needed for a specific sandwich
+# Parameters:
+#   - db: Database session
+#   - sandwich_id: ID of the sandwich for which resources are to be deducted
+# Returns:
+#   - DeductResourcesResponse containing details of deducted resources
 def deduct_resources(db: Session, sandwich_id):
     try:
         sandwich = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
@@ -53,6 +68,11 @@ def deduct_resources(db: Session, sandwich_id):
 
     return DeductResourcesResponse(deducted_resources)
 
+# Get all recipe entries from the database
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - A list of all recipe objects
 def read_all(db: Session):
     try:
         result = db.query(model.Recipe).all()
@@ -61,7 +81,12 @@ def read_all(db: Session):
 
     return result
 
-
+# Get a single recipe by its ID
+# Parameters:
+#   - db: Database session
+#   - recipe_id: ID of the recipe to retrieve
+# Returns:
+#   - The recipe object if found, raises 404 otherwise
 def read_one(db: Session, recipe_id):
     try:
         result = db.query(model.Recipe).filter(model.Recipe.id == recipe_id).first()
@@ -72,6 +97,13 @@ def read_one(db: Session, recipe_id):
 
     return result
 
+# Update an existing recipe by its ID
+# Parameters:
+#   - db: Database session
+#   - recipe_id: ID of the recipe to update
+#   - request: Data containing the fields to update
+# Returns:
+#   - The updated recipe object
 def update(db: Session, recipe_id, request):
     try:
         result = db.query(model.Recipe).filter(model.Recipe.id == recipe_id)
@@ -88,6 +120,12 @@ def update(db: Session, recipe_id, request):
     return result.first()
 
 
+# Delete a recipe by its ID
+# Parameters:
+#   - db: Database session
+#   - recipe_id: ID of the recipe to delete
+# Returns:
+#   - A 204 No Content response if successful
 def delete(db: Session, recipe_id):
     try:
         result = db.query(model.Recipe).filter(model.Recipe.id == recipe_id)
