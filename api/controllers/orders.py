@@ -5,6 +5,16 @@ from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
 
+# =====================
+# Orders Table Actions
+# =====================
+
+# Create a new order in the database
+# Parameters:
+#   - db: Database session
+#   - request: Data containing the order details (user_id, order_date, description, etc.)
+# Returns:
+#   - The newly created order object
 def create(db: Session, request):
     new_item = model.Order(
         user_id=request.user_id,
@@ -19,16 +29,20 @@ def create(db: Session, request):
     )
 
     try:
-        db.add(new_item)
-        db.commit()
-        db.refresh(new_item)
+        db.add(new_item) # Add the order to the session
+        db.commit() # Commit changes to persist the order
+        db.refresh(new_item) # Refresh session to get updated state
     except SQLAlchemyError as error:
-        db.rollback()
+        db.rollback() # Rollback transaction on failure
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return new_item
 
-
+# Get all orders from the database
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - A list of all order objects
 def read_all(db: Session):
     try:
         result = db.query(model.Order).all()
@@ -36,7 +50,12 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return result
 
-
+# Get a single order by ID
+# Parameters:
+#   - db: Database session
+#   - item_id: ID of the order to retrieve
+# Returns:
+#   - The order object if found, raises 404 otherwise
 def read_one(db: Session, item_id):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id).first()
@@ -46,7 +65,11 @@ def read_one(db: Session, item_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return item
 
-
+# Get the most recent order based on order_date
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - The most recent order object
 def get_most_recent_order(db: Session):
     try:
         item = db.query(model.Order).order_by(model.Order.order_date.desc()).first()
@@ -56,6 +79,11 @@ def get_most_recent_order(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item
 
+# Get the oldest order based on order_date
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - The oldest order object
 def get_oldest_order(db: Session):
     try:
         item = db.query(model.Order).order_by(model.Order.order_date.asc()).first()
@@ -65,6 +93,12 @@ def get_oldest_order(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item
 
+# Get all orders by a specific restaurant ID
+# Parameters:
+#   - db: Database session
+#   - rest_id: Restaurant ID
+# Returns:
+#   - A list of orders for the specified restaurant
 def get_order_by_rest(db: Session, rest_id):
     try:
         item = db.query(model.Order).filter(model.Order.restaurant_id == rest_id).all()
@@ -74,6 +108,13 @@ def get_order_by_rest(db: Session, rest_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item
 
+# Update an existing order
+# Parameters:
+#   - db: Database session
+#   - item_id: ID of the order to update
+#   - request: Data containing the updated fields
+# Returns:
+#   - The updated order object
 def update(db: Session, item_id, request):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id)
@@ -87,7 +128,12 @@ def update(db: Session, item_id, request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return item.first()
 
-
+# Delete an order by ID
+# Parameters:
+#   - db: Database session
+#   - item_id: ID of the order to delete
+# Returns:
+#   - A 204 No Content response if successful
 def delete(db: Session, item_id):
     try:
         item = db.query(model.Order).filter(model.Order.id == item_id)
