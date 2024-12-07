@@ -3,16 +3,16 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import coupons as model
 from sqlalchemy.exc import SQLAlchemyError
 
-# ========================
-# Coupon Table Operations
-# ========================
+# =======================
+# Coupon Table Controller
+# =======================
 
 # Create a new coupon in the database
 # Parameters:
 #   - db: Database session
 #   - request: Data containing coupon details (promo_code, is_active, restaurant_id, expir_date, discount)
 # Returns:
-#   - The newly created coupon object
+#   - A new coupon object
 def create(db: Session, request):
     new_coupon = model.Coupon(
         promo_code=request.promo_code,
@@ -23,7 +23,7 @@ def create(db: Session, request):
     )
 
     try:
-        db.add(new_coupon)  # Add the new coupon to the session
+        db.add(new_coupon)  # Add the new coupon to the db session
         db.commit()         # Commit the transaction to persist changes
         db.refresh(new_coupon)  # Refresh the session to get the latest state of the object
     except SQLAlchemyError as error:
