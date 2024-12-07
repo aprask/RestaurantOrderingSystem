@@ -145,6 +145,13 @@ def delete(db: Session, item_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+# Get orders within a specified date range
+# Parameters:
+#   - db: Database session
+#   - start_date: Start date
+#   - end_date: End date
+# Returns:
+#   - A list of orders within the date range
 def sort_orders_by_date(db: Session, start_date, end_date):
     try:
         items = db.query(model.Order).filter(
