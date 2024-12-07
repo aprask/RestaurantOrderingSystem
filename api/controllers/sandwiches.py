@@ -3,6 +3,16 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import sandwiches as model
 from sqlalchemy.exc import SQLAlchemyError
 
+# ===================
+# Sandwich Controller
+# ===================
+
+# Create a new sandwich in the database
+# Parameters:
+#   - db: Database session
+#   - request: Data containing the sandwich details (name, price, calories, size, etc.)
+# Returns:
+#   - The newly created sandwich object
 def create(db: Session, request):
     new_sandwich = model.Sandwich(
         sandwich_name=request.sandwich_name,
@@ -24,6 +34,11 @@ def create(db: Session, request):
 
     return new_sandwich
 
+# Retrieve all sandwiches from the database
+# Parameters:
+#   - db: Database session
+# Returns:
+#   - A list of all sandwich objects
 def read_all(db: Session):
     try:
         return db.query(model.Sandwich).all()
@@ -31,6 +46,12 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
+# Filter sandwiches based on specific criteria
+# Parameters:
+#   - db: Database session
+#   - filter_string: A string to filter sandwiches by
+# Returns:
+#   - A list of sandwiches that match the filter string
 def filter_by(db: Session, filter_string):
     try:
         if filter_string=="vegan":
@@ -47,6 +68,12 @@ def filter_by(db: Session, filter_string):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
+# Retrieve a single sandwich by its ID
+# Parameters:
+#   - db: Database session
+#   - sandwich_id: ID of the sandwich to retrieve
+# Returns:
+#   - The sandwich object if found, raises 404 otherwise
 def read_one(db: Session, sandwich_id):
     try:
         result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id).first()
@@ -57,6 +84,13 @@ def read_one(db: Session, sandwich_id):
 
     return result
 
+# Update an existing sandwich by its ID
+# Parameters:
+#   - db: Database session
+#   - sandwich_id: ID of the sandwich to update
+#   - request: Data containing the fields to update
+# Returns:
+#   - The updated sandwich object
 def update(db: Session, sandwich_id, request):
     try:
         result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
@@ -72,6 +106,12 @@ def update(db: Session, sandwich_id, request):
 
     return result.first()
 
+# Delete a sandwich by its ID
+# Parameters:
+#   - db: Database session
+#   - sandwich_id: ID of the sandwich to delete
+# Returns:
+#   - A 204 No Content response if successful
 def delete(db: Session, sandwich_id):
     try:
         result = db.query(model.Sandwich).filter(model.Sandwich.id == sandwich_id)
