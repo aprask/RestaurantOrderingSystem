@@ -3,6 +3,16 @@ from fastapi import HTTPException, status, Response, Depends
 from ..models import users as model
 from sqlalchemy.exc import SQLAlchemyError
 
+# ===============
+# User Controller
+# ===============
+
+# Create a new user in the database
+# Parameters:
+#   - db: Database session
+#   - request: Data containing user details
+# Returns:
+#   - A new user object
 def create(db: Session, request):
     new_user = model.User(
         customer_name = request.customer_name,

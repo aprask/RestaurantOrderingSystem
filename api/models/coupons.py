@@ -12,6 +12,6 @@ class Coupon(Base):
     is_active = Column(Boolean, default=False)
     discount = Column(DECIMAL, default=0.0)
     expir_date = Column(DateTime, default=lambda: datetime.utcnow())
-    restaurant_id = Column(Integer, ForeignKey('restaurants.id', ondelete="CASCADE"), nullable=False)
+    restaurant_id = Column(Integer, ForeignKey('restaurants.id', ondelete="CASCADE"), nullable=False) # Ensures cascading
     restaurant = relationship("Restaurant", back_populates="coupons")
     orders = relationship("Order", back_populates="coupons")
