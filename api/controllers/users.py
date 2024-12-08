@@ -43,7 +43,7 @@ def read_all(db: Session):
 
     return result
 
-# Retrieve a single user by its ID
+# Retrieve a single user by their ID
 # Parameters:
 #   - db: Database session
 #   - user_id: ID of the user to retrieve
@@ -59,7 +59,7 @@ def read_one(db: Session, user_id):
 
     return result
 
-# Update an existing user by its ID
+# Update an existing user by their ID
 # Parameters:
 #   - db: Database session
 #   - user_id: ID of the user to update
@@ -81,7 +81,7 @@ def update(db: Session, user_id, request):
 
     return result.first()
 
-# Delete a user by its ID
+# Delete a user by their ID
 # Parameters:
 #   - db: Database session
 #   - user_id: ID of the user to delete

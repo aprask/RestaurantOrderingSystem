@@ -5,9 +5,9 @@ from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
 
-# =====================
-# Orders Table Actions
-# =====================
+# =======================
+# Orders Table Controller
+# =======================
 
 # Create a new order in the database
 # Parameters:

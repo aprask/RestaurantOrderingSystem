@@ -47,7 +47,6 @@ class Order(OrderBase):
     restaurant_id: int
     status_of_order: str
     delivery_method: Optional[str]
-
     promo_code: Optional[str]
 
 
