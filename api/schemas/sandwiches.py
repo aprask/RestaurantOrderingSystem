@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 
 class SandwichBase(BaseModel):
+    id: int
     sandwich_name: str
     price: float
     calories: int
@@ -17,6 +18,7 @@ class SandwichCreate(SandwichBase):
 
 
 class SandwichUpdate(BaseModel):
+    id: Optional[int]
     sandwich_name: Optional[str] = None
     price: Optional[float] = None
     calories: Optional[float] = None
